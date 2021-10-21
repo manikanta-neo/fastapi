@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 from db_conf import Base
 
+
 class Book(Base):
     _tablename_ = "LibraryManagement"
 
@@ -16,4 +17,22 @@ class Book(Base):
     genre = Column(String(255), nullable=False)
     published_on = Column(String, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class User(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    book = Base.relationship("copy", backref="issue", lazy=True)
+    admin = Column(Base.Boolean, default=False)
+
+
+class Issue_book(Base):
+    id = Column(Integer, primary_key=True)
+    date_added = Column(DateTime())
+    Issued_by = Column(Integer, Foreign_key="user.id", nullable=False, default=None)
+    date_issued = Column(Integer, DateTime(), default=None)
+    date_return = Column(DateTime(), default=None)
+    book = Column(Integer, Foreign_key="book.id")
 
