@@ -25,13 +25,12 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
     book = Base.relationship("copy", backref="issue", lazy=True)
-    admin = Column(Base.Boolean, default=False)
 
 
 class Issue_book(Base):
     id = Column(Integer, primary_key=True)
     date_added = Column(DateTime())
-    Issued_by = Column(Integer, Foreign_key="user.id", nullable=False, default=None)
+    Issued_to = Column(Integer, Foreign_key="user.id", nullable=False, default=None)
     date_issued = Column(Integer, DateTime(), default=None)
     date_return = Column(DateTime(), default=None)
     book = Column(Integer, Foreign_key="book.id")
