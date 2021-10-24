@@ -32,7 +32,7 @@ class User(BaseModel):
 class Issue_book(BaseModel):
     id: int
     date_added: str
-    Issued_to: str
+    issued_to: str
     date_issued: str
     date_return: str
     book: str
