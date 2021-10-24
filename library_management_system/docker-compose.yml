@@ -13,7 +13,7 @@ services:
       #ignore security options
       - seccomp:unconfined
     environment:
-      # to create for first time it needs to set roor password to initilize db
+      # to create for first time it needs to set root password to initialize db
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_DB=${DB_NAME}
       #default user is root ignore
