@@ -1,4 +1,4 @@
-from schemas import BookDel,BookAdd
+from schemas import BookDel, BookAdd, User, Issue_book
 from db_conf import db
 import models
 import graphene
@@ -40,6 +40,47 @@ class CreateNewBook(graphene.Mutation):
         ok = True
         return CreateNewBook(ok="successfullycreated")
 
+
 class BookMutations(graphene.ObjectType):
         create_new_book = CreateNewBook.Field()
         delete_book = DeleteBook.Field()
+
+
+class CreateNewUser(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        name = graphene.String(required=True)
+        email = graphene.String(required=True)
+        password = graphene.String(required=True)
+    ok = graphene.Boolean()
+    @staticmethod
+    def mutate(root, info, id, name, email, password):
+        post = User(id=id, name=name, email=email, password=password)
+        db_post = models.User(id=post.id, name=post.name, email=post.email, password= post.email)
+        db.add(db_post)
+        db.commit()
+        db.refresh(db_post)
+        ok = True
+        return CreateNewUser(ok="successfully User created")
+
+
+
+
+class CreateIssueBook(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        date_added = graphene.DateTime(required=True)
+        issued_to = graphene.Int(required=True)
+        date_issued = graphene.DateTime(required=True)
+        book = graphene.Int(required=True)
+    ok = graphene.Boolean()
+    @staticmethod
+    def mutate(root, info, id, date_added, issued_to, date_issued, book):
+        post = Issue_book(id=id, date_added=date_added, issued_to=issued_to, date_issued=date_issued, book=book)
+        db_post = models.Issue_book(id=post.id, date_added=post.date_added, issued_to=post.issued_to,
+                                    date_issued=post.date_issued, book=post.book)
+        db.add(db_post)
+        db.commit()
+        db.refresh(db_post)
+        ok = True
+        return CreateIssueBook(ok="successfully issued Book")

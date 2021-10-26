@@ -32,6 +32,5 @@ class Issue_book(Base):
     date_added = Column(DateTime())
     issued_to = Column(Integer, Foreign_key="user.id", nullable=False, default=None)
     date_issued = Column(Integer, DateTime(), default=None)
-    date_return = Column(DateTime(), default=None)
     book = Column(Integer, Foreign_key="book.id")
 

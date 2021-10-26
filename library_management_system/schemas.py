@@ -34,5 +34,4 @@ class Issue_book(BaseModel):
     date_added: str
     issued_to: str
     date_issued: str
-    date_return: str
     book: str
